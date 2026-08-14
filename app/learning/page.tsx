@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useCandidate } from '@/lib/context';
 import { LearningPathAnalysis, Job } from '@/lib/types';
@@ -13,7 +13,9 @@ import {
   GitBranch,
 } from 'lucide-react';
 
-export default function LearningPathPage() {
+export const dynamic = 'force-dynamic';
+
+function LearningPathContent() {
   const { selectedCandidateId, candidates } = useCandidate();
   const searchParams = useSearchParams();
   const targetJobParam = searchParams.get('targetJobId') || 'job-001';
@@ -206,5 +208,13 @@ export default function LearningPathPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LearningPathPage() {
+  return (
+    <Suspense fallback={<LoadingState message="Traversing skill prerequisite graph on CognoDB..." />}>
+      <LearningPathContent />
+    </Suspense>
   );
 }
