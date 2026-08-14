@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React, { useEffect, useState } from 'react';
 import { useCandidate } from '@/lib/context';
 import { GraphData } from '@/lib/types';
